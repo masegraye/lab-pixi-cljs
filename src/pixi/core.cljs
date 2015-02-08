@@ -16,28 +16,6 @@
 
 (defn texture-from-image [path] (.fromImage -Texture path))
 
-(defn sprite [state key-path texture]
-  (let [s (-Sprite. texture)
-        current-state (get-in @state key-path)
-        {:keys [position anchor rotation] :or {position {:x 0 :y 0}
-                                               anchor {:x 0 :y 0}
-                                               rotation 0}} current-state]
-    (set! (.-x (.-position s)) (:x position))
-    (set! (.-y (.-position s)) (:y position))
-    (set! (.-x (.-anchor s)) (:x anchor))
-    (set! (.-y (.-anchor s)) (:y anchor))
-    (set! (.-rotation s) rotation)
-
-    (add-watch state :test (fn [k r o n]
-                             (let [{:keys [position anchor rotation] :or {position {:x 0 :y 0} anchor {:x 0 :y 0} rotation 0}} (get-in n key-path)]
-                               (set! (.-x (.-position s)) (:x position))
-                               (set! (.-y (.-position s)) (:y position))
-                               (set! (.-x (.-anchor s)) (:x anchor))
-                               (set! (.-y (.-anchor s)) (:y anchor))
-                               (set! (.-rotation s) rotation))))
-
-    s))
-
 (def ^:dynamic *game-state*)
 (def ^:dynamic *update-state*)
 (def ^:dynamic *stage*)
